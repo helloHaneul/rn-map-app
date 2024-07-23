@@ -28,11 +28,19 @@ const getMyLocation = () => {
     (error) => {
       console.log("error =========> ", error);
     },
-    { enableHighAccuracy: false, timeout: 10000 }
+    { enableHighAccuracy: true, timeout: 10000 }
   );
 };
 
 const Home = () => {
+  // const addressFile = require("../../Mapped-dong.json");
+  // const address = JSON.parse(JSON.stringify(addressFile));
+  // for (const dong of address) {
+  //   const arr = dong;
+  //   console.log(arr[0][0]);
+  // }
+  // console.log(Object.keys(address));
+
   getLocationAccPermission();
 
   return (

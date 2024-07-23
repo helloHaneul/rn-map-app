@@ -13,6 +13,7 @@ import SignUp from "./pages/SignUp";
 import MyInfo from "./pages/MyInfo";
 import MyPage from "./pages/MyPage";
 import MyPlace from "./pages/MyPlace";
+import SelectRegion from "./pages/SelectRegion";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -86,7 +87,7 @@ const Router = () => {
         component={MainTab}
         initialParams={{ isSignedIn: isSignedIn }}
       />
-      <Stack.Screen name='MyPlace' component={MyPlace} />
+      <Stack.Screen name='SelectRegion' component={SelectRegion} />
     </Stack.Navigator>
   );
 };
