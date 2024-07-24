@@ -387,12 +387,12 @@ const siGuList = [
   },
 ];
 
-const SelectRegion = ({ navigation }) => {
-  // ehd
-  const addressFile = require("../../Mapped-dong.json");
-  const address = JSON.parse(JSON.stringify(addressFile));
-  const dongList = Object.keys(address);
+// 위도,경도 정보
+const addressFile = require("../../Mapped-dong.json");
+const address = JSON.parse(JSON.stringify(addressFile));
+const dongList = Object.keys(address);
 
+const SelectRegion = ({ navigation }) => {
   const { top, bottom } = useSafeAreaInsets();
 
   const [selectSi, setSelectSi] = useState("");
@@ -429,8 +429,12 @@ const SelectRegion = ({ navigation }) => {
   // - 선택한 동네로 본인의 동네 저장하기
   const handoleTouchDong = (e) => {
     console.log(e);
-    console.log(address[e][0]);
-    //navigation.navigate("SelectDongResult", { address: e });
+    console.log(address[e][0]); // [0]번째 위도, 경도
+    navigation.navigate("Search", {
+      name: e.split(" ")[2],
+      latitude: address[e][0][1],
+      longitude: address[e][0][0],
+    });
   };
 
   return (
@@ -449,8 +453,8 @@ const SelectRegion = ({ navigation }) => {
                 key={i}
                 style={
                   e.short === selectSi.short
-                    ? styles.onSelectSi
-                    : styles.offSelectSi
+                    ? styles.onSelectDo
+                    : styles.offSelectDo
                 }
                 onPress={() => handleTouchSi(e)}
               >
@@ -458,8 +462,8 @@ const SelectRegion = ({ navigation }) => {
                   allowFontScaling={false}
                   style={
                     e.short === selectSi.short
-                      ? styles.onSelectSiText
-                      : styles.offSelectSiText
+                      ? styles.onSelectDoText
+                      : styles.offSelectDoText
                   }
                 >
                   {e.short}
@@ -481,7 +485,9 @@ const SelectRegion = ({ navigation }) => {
                 <Text
                   allowFontScaling={false}
                   style={
-                    e === selectDo ? styles.onSelectDo : styles.offSelectDo
+                    e === selectDo
+                      ? styles.onSelectSiText
+                      : styles.offSelectSiText
                   }
                 >
                   {e}
@@ -503,7 +509,9 @@ const SelectRegion = ({ navigation }) => {
                 <Text
                   allowFontScaling={false}
                   style={
-                    e === selectDong ? styles.onSelectDo : styles.offSelectDo
+                    e === selectDong
+                      ? styles.onSelectDongText
+                      : styles.offSelectDongText
                   }
                 >
                   {e.split(" ")[2]}
@@ -519,34 +527,6 @@ const SelectRegion = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  onSelectSi: {
-    backgroundColor: "#4AABFF",
-    paddingVertical: 9,
-    paddingHorizontal: 24,
-    borderBottomWidth: 0.5,
-    borderBottomColor: "#C3C3C3",
-  },
-  offSelectSi: {
-    backgroundColor: "#F5F5F5",
-    paddingVertical: 9,
-    paddingHorizontal: 24,
-    borderBottomWidth: 0.5,
-    borderBottomColor: "#C3C3C3",
-  },
-  onSelectSiText: {
-    //fontFamily: fonts.NOTO_MEDIUM,
-    fontSize: 12,
-    lineHeight: 20,
-    color: "#FFF",
-    textAlign: "center",
-  },
-  offSelectSiText: {
-    //fontFamily: fonts.NOTO_MEDIUM,
-    fontSize: 12,
-    lineHeight: 20,
-    color: "#888",
-    textAlign: "center",
-  },
   DoWrapper: {
     paddingVertical: 9,
     paddingHorizontal: 0,
@@ -555,15 +535,51 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
   },
   onSelectDo: {
-    //fontFamily: fonts.NOTO_MEDIUM,
-    fontSize: 13,
-    lineHeight: 20,
-    color: "#4AABFF",
-    textAlign: "center",
+    backgroundColor: "#4AABFF",
+    paddingVertical: 9,
+    paddingHorizontal: 24,
+    borderBottomWidth: 0.5,
+    borderBottomColor: "#C3C3C3",
   },
   offSelectDo: {
-    //fontFamily: fonts.NOTO,
+    backgroundColor: "#F5F5F5",
+    paddingVertical: 9,
+    paddingHorizontal: 24,
+    borderBottomWidth: 0.5,
+    borderBottomColor: "#C3C3C3",
+  },
+  onSelectDoText: {
     fontSize: 13,
+    lineHeight: 20,
+    //color: "#4AABFF",
+    textAlign: "center",
+  },
+  offSelectDoText: {
+    fontSize: 13,
+    lineHeight: 20,
+    color: "#888",
+    textAlign: "center",
+  },
+  onSelectSiText: {
+    fontSize: 12,
+    lineHeight: 20,
+    color: "#FFF",
+    textAlign: "center",
+  },
+  offSelectSiText: {
+    fontSize: 12,
+    lineHeight: 20,
+    color: "#888",
+    textAlign: "center",
+  },
+  onSelectDongText: {
+    fontSize: 12,
+    lineHeight: 20,
+    color: "#FFF",
+    textAlign: "center",
+  },
+  offSelectDongText: {
+    fontSize: 12,
     lineHeight: 20,
     color: "#888",
     textAlign: "center",

@@ -18,6 +18,17 @@ end
 #source 'https://github.com/navermaps/NMapsMapLegacySpecs.git'
 
 target 'MyLocationApp' do
+
+  #pod 'NMapsMap-Legacy'
+  #pod 'NMapsMap'
+
+  rn_maps_path = '../node_modules/react-native-maps'
+  # react-native-maps dependencies
+  pod 'react-native-maps', path: rn_maps_path
+  pod 'react-native-google-maps', path: rn_maps_path
+  pod 'GoogleMaps'
+  pod 'Google-Maps-iOS-Utils'
+  
   config = use_native_modules!
 
   use_react_native!(
@@ -25,9 +36,6 @@ target 'MyLocationApp' do
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
-
-  #pod 'NMapsMap-Legacy'
-  #pod 'NMapsMap'
 
   target 'MyLocationAppTests' do
     inherit! :complete
