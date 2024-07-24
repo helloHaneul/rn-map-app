@@ -1,7 +1,14 @@
 import React from "react";
-import { PermissionsAndroid, Platform } from "react-native";
+import {
+  FlatList,
+  PermissionsAndroid,
+  Platform,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { View, Text } from "react-native";
 import Geolocation from "react-native-geolocation-service";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const getLocationAccPermission = async () => {
   if (Platform.OS === "android") {
@@ -32,14 +39,64 @@ const getMyLocation = () => {
   );
 };
 
-const Home = () => {
+const Home = ({ navigation }) => {
   getLocationAccPermission();
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Home</Text>
-    </View>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#FFF" }}>
+      <View style={styles.headerWrapper}>
+        <View style={styles.locationTitle}>
+          <Text>현재</Text>
+          <Text style={styles.currLocation}>수궁동</Text>
+          <Text>입니다.</Text>
+        </View>
+        <View>
+          <TouchableOpacity
+            style={styles.searchLocationBorder}
+            onPress={() => navigation.navigate("MyPlace")}
+          >
+            <Text style={styles.searchLocation}>다른 동네</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  headerWrapper: {
+    flx: 1,
+    backgroundColor: "#FFF",
+    paddingHorizontal: 16,
+    paddingVertical: 18,
+    flexDirection: "row",
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: "#EAEAEA",
+    justifyContent: "space-between",
+  },
+  locationTitle: {
+    flexDirection: "row",
+    gap: 8,
+    alignItems: "baseline",
+  },
+  currLocation: {
+    fontSize: 18,
+    fontWeight: "bold",
+    lineHeight: 19.97,
+    color: "#000",
+  },
+  searchLocationBorder: {
+    borderRadius: 8,
+    borderWidth: 1,
+    padding: 8,
+    borderColor: "#c8c8c8",
+  },
+  searchLocation: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#000",
+  },
+});
 
 export default Home;

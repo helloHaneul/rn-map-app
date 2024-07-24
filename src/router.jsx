@@ -87,7 +87,7 @@ const Router = () => {
         component={MainTab}
         initialParams={{ isSignedIn: isSignedIn }}
       />
-      <Stack.Screen name='Search' component={Search} />
+      <Stack.Screen name='MyPlace' component={MyPlace} />
       <Stack.Screen name='SelectRegion' component={SelectRegion} />
     </Stack.Navigator>
   );

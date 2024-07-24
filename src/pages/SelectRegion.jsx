@@ -430,7 +430,7 @@ const SelectRegion = ({ navigation }) => {
   const handoleTouchDong = (e) => {
     console.log(e);
     console.log(address[e][0]); // [0]번째 위도, 경도
-    navigation.navigate("Search", {
+    navigation.navigate("MyPlace", {
       name: e.split(" ")[2],
       latitude: address[e][0][1],
       longitude: address[e][0][0],

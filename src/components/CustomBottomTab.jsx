@@ -82,7 +82,11 @@ const CustomBottomTab = ({ state, navigation, insets, descriptors }) => {
             key={index}
             activeOpacity={0.7}
             onPress={onPress}
-            style={{ flex: 1, alignItems: "center" }}
+            style={{
+              flex: 1,
+              alignItems: "center",
+              paddingBottom: 10,
+            }}
           >
             <Animated.Image
               source={iconFlag(isFocused)}
@@ -119,7 +123,7 @@ const styles = StyleSheet.create({
     borderRightWidth: 0.5,
     borderColor: "#EEE",
     backgroundColor: "#FFF",
-    paddingTop: 10,
+    paddingTop: 20,
     zIndex: 10,
   },
 });
