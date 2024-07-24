@@ -9,7 +9,6 @@ import {
   Image,
 } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
-import BasicHeader from "../components/BasicHeader";
 
 const close = require("../assets/icons/close.png");
 
