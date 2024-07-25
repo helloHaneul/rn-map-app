@@ -2,47 +2,14 @@ import React from "react";
 import {
   FlatList,
   Image,
-  PermissionsAndroid,
-  Platform,
   StatusBar,
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
 import { View, Text } from "react-native";
-import Geolocation from "react-native-geolocation-service";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const more = require("../assets/icons/more.png");
-
-// TODO: location code moved to splash
-const getLocationAccPermission = async () => {
-  if (Platform.OS === "android") {
-    const andr_granted = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-    );
-    if (andr_granted === PermissionsAndroid.RESULTS.GRANTED) {
-      getMyLocation();
-    }
-  } else {
-    const ios_granted = await Geolocation.requestAuthorization("always");
-    if (ios_granted === "granted") {
-      getMyLocation();
-    }
-  }
-};
-
-const getMyLocation = () => {
-  console.log("get My Location =========> ");
-  Geolocation.getCurrentPosition(
-    (position) => {
-      console.log("position =========> ", position);
-    },
-    (error) => {
-      console.log("error =========> ", error);
-    },
-    { enableHighAccuracy: true, timeout: 10000 }
-  );
-};
 
 const dummy_products = [
   {
@@ -97,8 +64,6 @@ const dummy_products = [
 ];
 
 const Home = ({ navigation }) => {
-  getLocationAccPermission();
-
   const renderProducts = ({ item, index }) => {
     return (
       <View

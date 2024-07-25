@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import BasicHeader from "../components/BasicHeader";
+import MyPlaceSettingModal from "../components/MyPlaceSettingModal";
 
 // 시, 구 데이터 정의
 const siObj = [
@@ -398,8 +399,11 @@ const SelectRegion = ({ navigation }) => {
   const [selectSi, setSelectSi] = useState("");
   const [selectDo, setSelectDo] = useState("");
   const [selectDong, setSelectDong] = useState("");
+  const [selectLocation, setSelectLocation] = useState({});
   const [doList, setDoList] = useState([]);
   const [selectdongList, setSelectDongList] = useState([]);
+
+  const [modalVisible, setModalVisible] = useState(false);
 
   // 시 선택 시
   const handleTouchSi = (e) => {
@@ -415,12 +419,10 @@ const SelectRegion = ({ navigation }) => {
     setSelectDo(e);
     let dong = [];
     const getDong = dongList.map((item) => {
-      // console.log(item)
       item.includes(`${selectSi.long} ${e.replace(/ /g, "")}`)
         ? dong.push(item)
         : null;
     });
-    //console.log(dong);
     setSelectDongList(dong);
   };
 
@@ -428,13 +430,19 @@ const SelectRegion = ({ navigation }) => {
   // - 위도, 경도 받아오기
   // - 선택한 동네로 본인의 동네 저장하기
   const handoleTouchDong = (e) => {
-    console.log(e);
-    console.log(address[e][0]); // [0]번째 위도, 경도
-    navigation.navigate("MyPlace", {
-      name: e.split(" ")[2],
+    //console.log(e.split(" ")[2]);
+    //console.log(address[e][0]); // [0]번째 위도, 경도
+
+    const strDong = e.split(" ")[2];
+
+    setSelectDong(strDong);
+
+    setSelectLocation({
       latitude: address[e][0][1],
       longitude: address[e][0][0],
     });
+
+    setModalVisible(!modalVisible);
   };
 
   return (
@@ -509,7 +517,7 @@ const SelectRegion = ({ navigation }) => {
                 <Text
                   allowFontScaling={false}
                   style={
-                    e === selectDong
+                    e.split(" ")[2] === selectDong
                       ? styles.onSelectDongText
                       : styles.offSelectDongText
                   }
@@ -522,6 +530,14 @@ const SelectRegion = ({ navigation }) => {
           </ScrollView>
         </View>
       </View>
+
+      <MyPlaceSettingModal
+        isVisible={modalVisible}
+        setIsVisible={setModalVisible}
+        selectedDong={selectDong}
+        selectedLocation={selectLocation}
+        navigation={navigation}
+      />
     </View>
   );
 };
@@ -549,25 +565,25 @@ const styles = StyleSheet.create({
     borderBottomColor: "#C3C3C3",
   },
   onSelectDoText: {
-    fontSize: 13,
+    fontSize: 14,
     lineHeight: 20,
     //color: "#4AABFF",
     textAlign: "center",
   },
   offSelectDoText: {
-    fontSize: 13,
+    fontSize: 14,
     lineHeight: 20,
     color: "#888",
     textAlign: "center",
   },
   onSelectSiText: {
-    fontSize: 12,
+    fontSize: 13,
     lineHeight: 20,
     color: "#FFF",
     textAlign: "center",
   },
   offSelectSiText: {
-    fontSize: 12,
+    fontSize: 13,
     lineHeight: 20,
     color: "#888",
     textAlign: "center",

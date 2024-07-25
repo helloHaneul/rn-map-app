@@ -27,9 +27,6 @@ const MyPlace = ({ navigation, route }) => {
       headerRef.current.measureInWindow((left, top, width, height) => {
         if (height > 0) {
           setMeasure({ left, top, width, height });
-          console.log(
-            `left(${left}), top(${top}), width(${width}), height(${height})`
-          );
         }
       });
     }

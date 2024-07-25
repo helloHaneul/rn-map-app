@@ -40,7 +40,7 @@ const LoginStack = () => {
 
 const MainTab = ({ route }) => {
   const { isSignedIn } = route.params;
-  console.log(isSignedIn);
+  //console.log(isSignedIn);
 
   return (
     <Tab.Navigator
