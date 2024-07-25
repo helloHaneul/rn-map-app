@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, PermissionsAndroid, Platform } from "react-native";
 import Geolocation from "react-native-geolocation-service";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getValueFromStorage } from "../utils/Storage";
 
 // TODO: use Google Geocoding API
 // 시뮬레이터 환경에서 위도,경도 정보 정확하지 않음
@@ -33,25 +33,31 @@ const getMyLocation = () => {
   );
 };
 
-const getLocationInfo = async () => {
-  try {
-    const location = await AsyncStorage.getItem("my-dong");
-    //console.log(`my-dong => ${location}`);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 const Splash = ({ navigation }) => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [myLocation, setMyLocation] = useState();
+
+  const getLocationInfo = async () => {
+    const storedLocation = await getValueFromStorage("my-dong");
+
+    if (!storedLocation) {
+      getLocationAccPermission();
+      setMyLocation("수궁동"); // TODO: should be revised (get addres by position)
+    } else {
+      setMyLocation(storedLocation);
+    }
+  };
+
+  getLocationInfo();
 
   useEffect(() => {
-    getLocationInfo();
-
-    getLocationAccPermission();
-
-    navigation.replace("MainTab");
-  }, []);
+    if (myLocation) {
+      setTimeout(() => {
+        navigation.replace("MainTab", {
+          myLocation: myLocation,
+        });
+      }, 5000);
+    }
+  }, [myLocation]);
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>

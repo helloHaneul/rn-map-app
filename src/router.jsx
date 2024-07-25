@@ -39,9 +39,6 @@ const LoginStack = () => {
 };
 
 const MainTab = ({ route }) => {
-  const { isSignedIn } = route.params;
-  //console.log(isSignedIn);
-
   return (
     <Tab.Navigator
       tabBar={renderTabBar}
@@ -49,22 +46,23 @@ const MainTab = ({ route }) => {
         headerShown: false,
       }}
     >
-      <Tab.Screen name='홈' component={Home} />
+      <Tab.Screen
+        name='홈'
+        component={Home}
+        initialParams={{
+          myLocation: route?.params?.myLocation
+            ? route?.params?.myLocation
+            : "수궁동",
+        }}
+      />
       <Tab.Screen name='검색' component={Search} />
       <Tab.Screen name='채팅' component={Chat} />
-      <Tab.Screen
-        name='프로필'
-        component={isSignedIn ? MyPageStack : LoginStack}
-      />
+      <Tab.Screen name='프로필' component={LoginStack} />
     </Tab.Navigator>
   );
 };
 
 const Router = () => {
-  // TODO: 로그인 상태는 전역으로 관리되어야?
-  // TODO: 로그인 또는 로그아웃 정보를 로컬에 저장해서 다시 로그인할 필요없게 하기!
-  const isSignedIn = false;
-
   useEffect(() => {
     if (Platform.OS === "ios") {
       Geolocation.requestAuthorization("always");
@@ -82,11 +80,7 @@ const Router = () => {
         component={Splash}
         options={{ animation: "fade_from_bottom" }}
       />
-      <Stack.Screen
-        name='MainTab'
-        component={MainTab}
-        initialParams={{ isSignedIn: isSignedIn }}
-      />
+      <Stack.Screen name='MainTab' component={MainTab} />
       <Stack.Screen name='MyPlace' component={MyPlace} />
       <Stack.Screen name='SelectRegion' component={SelectRegion} />
     </Stack.Navigator>

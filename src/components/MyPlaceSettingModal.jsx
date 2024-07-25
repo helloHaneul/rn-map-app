@@ -10,7 +10,7 @@ import {
   StyleSheet,
 } from "react-native";
 import Modal from "react-native-modal";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { setValueToStorage } from "../utils/Storage";
 
 const MyPlaceSettingModal = ({
   isVisible,
@@ -22,11 +22,7 @@ const MyPlaceSettingModal = ({
   const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = useWindowDimensions();
 
   const storeMyDong = async (dong) => {
-    try {
-      await AsyncStorage.setItem("my-dong", dong);
-    } catch (error) {
-      console.log(error);
-    }
+    await setValueToStorage("my-dong", dong);
   };
 
   const handleOnPress = (isSet) => {

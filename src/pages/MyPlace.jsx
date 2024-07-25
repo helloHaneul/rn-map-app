@@ -39,7 +39,7 @@ const MyPlace = ({ navigation, route }) => {
           <View>
             <TouchableOpacity
               onPress={() => {
-                navigation.reset({ routes: [{ name: "MainTab" }] });
+                navigation.goBack();
               }}
             >
               <Image source={close} style={styles.closeButton} />

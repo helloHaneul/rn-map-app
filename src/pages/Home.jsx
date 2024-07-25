@@ -63,7 +63,9 @@ const dummy_products = [
   },
 ];
 
-const Home = ({ navigation }) => {
+const Home = ({ navigation, route }) => {
+  // TODO: 현재 위치(stored my location)정보 useState로 관리하기
+
   const renderProducts = ({ item, index }) => {
     return (
       <View
@@ -97,13 +99,15 @@ const Home = ({ navigation }) => {
       <View style={styles.headerWrapper}>
         <View style={styles.locationTitle}>
           <Text>현재</Text>
-          <Text style={styles.currLocation}>수궁동</Text>
+          <Text style={styles.currLocation}>{route.params.myLocation}</Text>
           <Text>입니다.</Text>
         </View>
         <View>
           <TouchableOpacity
             style={styles.searchLocationBorder}
-            onPress={() => navigation.navigate("MyPlace")}
+            onPress={() =>
+              navigation.navigate("MyPlace", { name: route.params.myLocation })
+            }
           >
             <Text style={styles.searchLocation}>다른 동네</Text>
           </TouchableOpacity>
